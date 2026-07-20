@@ -15,27 +15,19 @@ public final class WeaponEnhancementService {
 
     public static EnhancementResult attempt(Player player) {
         ItemStack weapon = player.getMainHandItem();
-        Optional<EnhancedWeaponProfile> profile = WeaponEnhancementProfiles.find(weapon);
-        if (profile.isEmpty()) {
-            return new EnhancementResult(EnhancementResult.Type.NOT_SUPPORTED_WEAPON, 0, 0, 0);
-        }
+        ItemStack stone = findEnhancementStone(player);
+        return EnhancementAttemptService.attempt(weapon, stone, player.getRandom());
+    }
 
-        int previousLevel = EnhancementData.getLevel(weapon);
-        if (previousLevel >= profile.get().maxLevel()) {
-            return new EnhancementResult(EnhancementResult.Type.MAX_LEVEL, previousLevel, previousLevel, 0);
+    private static ItemStack findEnhancementStone(Player player) {
+        Inventory inventory = player.getInventory();
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            ItemStack stack = inventory.getItem(slot);
+            if (stack.is(ModItems.ENHANCEMENT_STONE.get())) {
+                return stack;
+            }
         }
-
-        int successChance = EnhancementChance.successChanceForCurrentLevel(previousLevel);
-        if (!consumeEnhancementStone(player)) {
-            return new EnhancementResult(EnhancementResult.Type.NO_STONE, previousLevel, previousLevel, successChance);
-        }
-
-        if (EnhancementChance.rollSuccess(previousLevel, player.getRandom())) {
-            int newLevel = EnhancementData.increment(weapon);
-            return new EnhancementResult(EnhancementResult.Type.SUCCESS, previousLevel, newLevel, successChance);
-        }
-
-        return new EnhancementResult(EnhancementResult.Type.FAILED_ROLL, previousLevel, previousLevel, successChance);
+        return ItemStack.EMPTY;
     }
 
     public static EnhancementResult setLevel(ItemStack weapon, int level) {
@@ -53,15 +45,4 @@ public final class WeaponEnhancementService {
         return new EnhancementResult(EnhancementResult.Type.SUCCESS, previousLevel, level, 0);
     }
 
-    private static boolean consumeEnhancementStone(Player player) {
-        Inventory inventory = player.getInventory();
-        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
-            ItemStack stack = inventory.getItem(slot);
-            if (stack.is(ModItems.ENHANCEMENT_STONE.get())) {
-                stack.shrink(1);
-                return true;
-            }
-        }
-        return false;
-    }
 }

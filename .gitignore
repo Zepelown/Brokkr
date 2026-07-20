@@ -3,5 +3,6 @@
 build/
 run/
 repo/
+tmp/
 *.iml
 *.log

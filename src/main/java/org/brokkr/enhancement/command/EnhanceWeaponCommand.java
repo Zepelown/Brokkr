@@ -7,6 +7,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import org.brokkr.enhancement.EnhancementMessages;
 import org.brokkr.enhancement.EnhancementResult;
 import org.brokkr.enhancement.WeaponEnhancementService;
 import org.brokkr.enhancement.text.EnhancementTextKeys;
@@ -30,7 +31,7 @@ public final class EnhanceWeaponCommand {
     private static int enhance(CommandSourceStack source) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         EnhancementResult result = WeaponEnhancementService.attempt(player);
-        player.sendSystemMessage(messageFor(result));
+        player.sendSystemMessage(EnhancementMessages.forResult(result));
         return result.type() == EnhancementResult.Type.SUCCESS ? 1 : 0;
     }
 
@@ -42,25 +43,7 @@ public final class EnhanceWeaponCommand {
             return 1;
         }
 
-        player.sendSystemMessage(messageFor(result));
+        player.sendSystemMessage(EnhancementMessages.forResult(result));
         return 0;
-    }
-
-    private static Component messageFor(EnhancementResult result) {
-        return switch (result.type()) {
-            case SUCCESS -> Component.translatable(
-                    EnhancementTextKeys.COMMAND_SUCCESS,
-                    result.previousLevel(),
-                    result.newLevel()
-            );
-            case FAILED_ROLL -> Component.translatable(
-                    EnhancementTextKeys.COMMAND_FAILURE,
-                    result.previousLevel()
-            );
-            case NOT_SUPPORTED_WEAPON -> Component.translatable(EnhancementTextKeys.COMMAND_NOT_WEAPON);
-            case NO_STONE -> Component.translatable(EnhancementTextKeys.COMMAND_NO_STONE);
-            case MAX_LEVEL -> Component.translatable(EnhancementTextKeys.COMMAND_MAX_LEVEL);
-            case INVALID_LEVEL -> Component.translatable(EnhancementTextKeys.COMMAND_INVALID_LEVEL);
-        };
     }
 }
