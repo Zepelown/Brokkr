@@ -56,17 +56,17 @@ public class EnhancementMenu extends AbstractContainerMenu {
         this.inputSlots = inputSlots;
         this.data = data;
 
-        addSlot(new EnhancementSlot(inputSlots, WEAPON_SLOT, 44, 35));
-        addSlot(new EnhancementStoneSlot(inputSlots, STONE_SLOT, 116, 35));
+        addSlot(new EnhancementSlot(inputSlots, WEAPON_SLOT, 46, 32));
+        addSlot(new EnhancementStoneSlot(inputSlots, STONE_SLOT, 102, 76));
 
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 9; column++) {
-                addSlot(new Slot(playerInventory, column + row * 9 + 9, 8 + column * 18, 84 + row * 18));
+                addSlot(new Slot(playerInventory, column + row * 9 + 9, 29 + column * 18, 132 + row * 18));
             }
         }
 
         for (int column = 0; column < 9; column++) {
-            addSlot(new Slot(playerInventory, column, 8 + column * 18, 142));
+            addSlot(new Slot(playerInventory, column, 29 + column * 18, 190));
         }
 
         addDataSlots(data);

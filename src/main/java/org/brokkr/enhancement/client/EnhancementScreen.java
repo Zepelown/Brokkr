@@ -27,6 +27,13 @@ import java.util.Optional;
 import java.util.Random;
 
 public class EnhancementScreen extends AbstractContainerScreen<EnhancementMenu> {
+    private static final ResourceLocation PANEL = texture("enhancement_panel");
+    private static final ResourceLocation SLOT_STONE_FRAME = texture("slot_stone_frame");
+    private static final ResourceLocation SLOT_WEAPON_HINT = texture("slot_weapon_hint");
+    private static final ResourceLocation SLOT_STONE_HINT = texture("slot_stone_hint");
+    private static final ResourceLocation PREVIEW_ARROW = texture("preview_arrow");
+    private static final ResourceLocation PREVIEW_CURRENT_FRAME = texture("preview_current_frame");
+    private static final ResourceLocation PREVIEW_RESULT_FRAME = texture("preview_result_frame");
     private static final ResourceLocation RUNE_CIRCLE = texture("rune_circle");
     private static final ResourceLocation RUNE_SUCCESS = texture("rune_success");
     private static final ResourceLocation RUNE_FAILURE = texture("rune_failure");
@@ -40,6 +47,24 @@ public class EnhancementScreen extends AbstractContainerScreen<EnhancementMenu> 
     private static final int RUNE_EFFECT_SIZE = 128;
     private static final int HAMMER_FLASH_SIZE = 96;
     private static final int RESULT_FLASH_SIZE = 256;
+    private static final int PANEL_WIDTH = 220;
+    private static final int PANEL_HEIGHT = 214;
+    private static final int PREVIEW_CURRENT_FRAME_X = 34;
+    private static final int PREVIEW_FRAME_Y = 20;
+    private static final int PREVIEW_FRAME_SIZE = 40;
+    private static final int PREVIEW_HINT_X = 38;
+    private static final int PREVIEW_HINT_Y = 24;
+    private static final int STONE_SLOT_FRAME_X = 98;
+    private static final int STONE_SLOT_FRAME_Y = 72;
+    private static final int STONE_SLOT_HINT_X = 94;
+    private static final int STONE_SLOT_HINT_Y = 68;
+    private static final int PREVIEW_ITEM_Y = 32;
+    private static final int PREVIEW_RESULT_X = 158;
+    private static final int PREVIEW_RESULT_FRAME_X = 146;
+    private static final int CHANCE_TEXT_CENTER_X = 110;
+    private static final int CHANCE_TEXT_Y = 51;
+    private static final int STATUS_TEXT_MAX_WIDTH = 196;
+    private static final int ATTACK_BONUS_TEXT_MAX_WIDTH = 92;
 
     private final List<GuiEffectParticle> particles = new ArrayList<>();
     private final Random random = new Random();
@@ -56,15 +81,17 @@ public class EnhancementScreen extends AbstractContainerScreen<EnhancementMenu> 
 
     public EnhancementScreen(EnhancementMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        imageWidth = 176;
-        imageHeight = 166;
+        imageWidth = PANEL_WIDTH;
+        imageHeight = PANEL_HEIGHT;
     }
 
     @Override
     protected void init() {
         super.init();
+        inventoryLabelX = 29;
+        inventoryLabelY = 120;
         enhanceButton = Button.builder(Component.translatable(EnhancementTextKeys.SCREEN_BUTTON_ENHANCE), button -> sendButton(EnhancementMenu.BUTTON_ENHANCE))
-                .bounds(leftPos + 57, topPos + 61, 62, 20)
+                .bounds(leftPos + 79, topPos + 106, 62, 20)
                 .build();
         addRenderableWidget(enhanceButton);
     }
@@ -87,23 +114,32 @@ public class EnhancementScreen extends AbstractContainerScreen<EnhancementMenu> 
             renderProcessOverlay(graphics);
         }
         renderTooltip(graphics, mouseX, mouseY);
+        renderResultPreviewTooltip(graphics, mouseX, mouseY);
     }
 
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
-        graphics.fill(leftPos, topPos, leftPos + imageWidth, topPos + imageHeight, 0xEE3E3730);
-        graphics.fill(leftPos + 4, topPos + 4, leftPos + imageWidth - 4, topPos + imageHeight - 4, 0xEE5A4A3B);
-        graphics.fill(leftPos + 8, topPos + 8, leftPos + imageWidth - 8, topPos + imageHeight - 8, 0xEE2D2925);
-        graphics.renderOutline(leftPos, topPos, imageWidth, imageHeight, 0xFFB8843E);
-        graphics.renderOutline(leftPos + 40, topPos + 31, 24, 24, 0xFFE0C078);
-        graphics.renderOutline(leftPos + 112, topPos + 31, 24, 24, 0xFFE0C078);
-        graphics.fill(leftPos + 41, topPos + 32, leftPos + 63, topPos + 54, 0xFF191613);
-        graphics.fill(leftPos + 113, topPos + 32, leftPos + 135, topPos + 54, 0xFF191613);
+        blit(graphics, PANEL, leftPos, topPos, PANEL_WIDTH, PANEL_HEIGHT, PANEL_WIDTH, PANEL_HEIGHT);
+        blit(graphics, PREVIEW_CURRENT_FRAME, leftPos + PREVIEW_CURRENT_FRAME_X, topPos + PREVIEW_FRAME_Y, PREVIEW_FRAME_SIZE, PREVIEW_FRAME_SIZE, PREVIEW_FRAME_SIZE, PREVIEW_FRAME_SIZE);
+        blit(graphics, PREVIEW_ARROW, leftPos + 78, topPos + 32, 64, 16, 64, 16);
+        blit(graphics, PREVIEW_RESULT_FRAME, leftPos + PREVIEW_RESULT_FRAME_X, topPos + PREVIEW_FRAME_Y, PREVIEW_FRAME_SIZE, PREVIEW_FRAME_SIZE, PREVIEW_FRAME_SIZE, PREVIEW_FRAME_SIZE);
+        blit(graphics, SLOT_STONE_FRAME, leftPos + STONE_SLOT_FRAME_X, topPos + STONE_SLOT_FRAME_Y, 24, 24, 24, 24);
+
+        if (menu.getWeapon().isEmpty()) {
+            blit(graphics, SLOT_WEAPON_HINT, leftPos + PREVIEW_HINT_X, topPos + PREVIEW_HINT_Y, 32, 32, 32, 32);
+        }
+        if (menu.getStone().isEmpty()) {
+            blit(graphics, SLOT_STONE_HINT, leftPos + STONE_SLOT_HINT_X, topPos + STONE_SLOT_HINT_Y, 32, 32, 32, 32);
+        }
+
+        renderPreviewItems(graphics);
     }
 
     @Override
     protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
-        graphics.drawString(font, title, titleLabelX, titleLabelY, 0xF0F0F0, false);
+        graphics.drawCenteredString(font, title, imageWidth / 2, titleLabelY, 0xF0F0F0);
+        graphics.drawString(font, Component.translatable(EnhancementTextKeys.SCREEN_PREVIEW_CURRENT), 34, 10, 0xB8B0A2, false);
+        graphics.drawString(font, Component.translatable(EnhancementTextKeys.SCREEN_PREVIEW_RESULT), 146, 10, 0xE7D27A, false);
         graphics.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY, 0xD0D0D0, false);
 
         ItemStack weapon = menu.getWeapon();
@@ -114,17 +150,83 @@ public class EnhancementScreen extends AbstractContainerScreen<EnhancementMenu> 
         float currentBonus = profile.map(value -> value.bonusDamage(level)).orElse(0.0F);
         float nextBonus = profile.map(value -> value.bonusDamage(nextLevel)).orElse(0.0F);
 
-        int y = 17;
-        graphics.drawString(font, Component.translatable(EnhancementTextKeys.SCREEN_CURRENT_LEVEL, level), 70, y, 0xE7D27A, false);
-        graphics.drawString(font, Component.translatable(EnhancementTextKeys.SCREEN_NEXT_LEVEL, nextLevel), 70, y + 10, 0xE7D27A, false);
-        graphics.drawString(font, Component.translatable(EnhancementTextKeys.SCREEN_SUCCESS_CHANCE, chance), 70, y + 20, 0x8DDCFF, false);
-        graphics.drawString(font, Component.translatable(
+        graphics.drawCenteredString(font, chanceText(profile.isPresent(), level, chance), CHANCE_TEXT_CENTER_X, CHANCE_TEXT_Y, 0xFFB84E);
+        graphics.drawCenteredString(font, Component.translatable(EnhancementTextKeys.SCREEN_SLOT_STONE), 110, 99, 0xD8C8A6);
+        graphics.drawString(font, Component.translatable(EnhancementTextKeys.SCREEN_CURRENT_LEVEL, level), 12, 64, 0xE7D27A, false);
+        if (profile.isPresent() && level < EnhancementData.MAX_LEVEL) {
+            graphics.drawString(font, Component.translatable(EnhancementTextKeys.SCREEN_NEXT_LEVEL, nextLevel), 12, 74, 0xE7D27A, false);
+        } else {
+            graphics.drawString(font, Component.translatable(EnhancementTextKeys.SCREEN_PREVIEW_NO_RESULT), 12, 74, 0x7D756A, false);
+        }
+        drawFittedString(graphics, Component.translatable(
                 EnhancementTextKeys.SCREEN_ATTACK_BONUS,
                 format(currentBonus),
                 format(nextBonus)
-        ), 70, y + 30, 0x88FF88, false);
+        ), 118, 64, ATTACK_BONUS_TEXT_MAX_WIDTH, 0x88FF88);
 
-        graphics.drawString(font, statusText(), 8, 72, statusColor(), false);
+        drawFittedString(graphics, statusText(), 12, 128, STATUS_TEXT_MAX_WIDTH, statusColor());
+    }
+
+    private void renderPreviewItems(GuiGraphics graphics) {
+        renderFakePreviewItem(graphics, resultPreviewStack(), leftPos + PREVIEW_RESULT_X, topPos + PREVIEW_ITEM_Y);
+    }
+
+    private void renderFakePreviewItem(GuiGraphics graphics, ItemStack stack, int x, int y) {
+        if (!stack.isEmpty()) {
+            graphics.renderFakeItem(stack, x, y);
+        }
+    }
+
+    private ItemStack resultPreviewStack() {
+        ItemStack weapon = menu.getWeapon();
+        if (!WeaponEnhancementProfiles.isSupported(weapon)) {
+            return ItemStack.EMPTY;
+        }
+        int level = EnhancementData.getLevel(weapon);
+        if (level >= EnhancementData.MAX_LEVEL) {
+            return ItemStack.EMPTY;
+        }
+        // Mutate only the visual preview copy; the server-owned slot stack remains untouched.
+        ItemStack preview = weapon.copy();
+        EnhancementData.setLevel(preview, level + 1);
+        return preview;
+    }
+
+    private Component chanceText(boolean supportedWeapon, int level, int chance) {
+        if (!supportedWeapon || level >= EnhancementData.MAX_LEVEL) {
+            return Component.translatable(EnhancementTextKeys.SCREEN_PREVIEW_NO_RESULT);
+        }
+        return Component.translatable(EnhancementTextKeys.SCREEN_SUCCESS_CHANCE, chance);
+    }
+
+    private void renderResultPreviewTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
+        ItemStack preview = resultPreviewStack();
+        if (!preview.isEmpty() && isHoveringResultPreview(mouseX, mouseY)) {
+            graphics.setTooltipForNextFrame(font, preview, mouseX, mouseY);
+        }
+    }
+
+    private boolean isHoveringResultPreview(int mouseX, int mouseY) {
+        int relativeX = mouseX - leftPos;
+        int relativeY = mouseY - topPos;
+        return relativeX >= PREVIEW_RESULT_FRAME_X
+                && relativeX < PREVIEW_RESULT_FRAME_X + PREVIEW_FRAME_SIZE
+                && relativeY >= PREVIEW_FRAME_Y
+                && relativeY < PREVIEW_FRAME_Y + PREVIEW_FRAME_SIZE;
+    }
+
+    private void drawFittedString(GuiGraphics graphics, Component text, int x, int y, int maxWidth, int color) {
+        int textWidth = font.width(text);
+        if (textWidth <= maxWidth) {
+            graphics.drawString(font, text, x, y, color, false);
+            return;
+        }
+        graphics.pose().pushMatrix();
+        float scale = Math.min(1.0F, maxWidth / (float) textWidth);
+        graphics.pose().translate(x, y);
+        graphics.pose().scale(scale, scale);
+        graphics.drawString(font, text, 0, 0, color, false);
+        graphics.pose().popMatrix();
     }
 
     private void detectServerAttempt() {

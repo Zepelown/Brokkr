@@ -16,6 +16,13 @@ public final class EnhancementTextKeys {
     public static final String SCREEN_NEXT_LEVEL = "screen.brokkr.enhancement.next_level";
     public static final String SCREEN_SUCCESS_CHANCE = "screen.brokkr.enhancement.success_chance";
     public static final String SCREEN_ATTACK_BONUS = "screen.brokkr.enhancement.attack_bonus";
+    public static final String SCREEN_SLOT_WEAPON = "screen.brokkr.enhancement.slot.weapon";
+    public static final String SCREEN_SLOT_STONE = "screen.brokkr.enhancement.slot.stone";
+    public static final String SCREEN_SLOT_WEAPON_TOOLTIP = "screen.brokkr.enhancement.slot.weapon.tooltip";
+    public static final String SCREEN_SLOT_STONE_TOOLTIP = "screen.brokkr.enhancement.slot.stone.tooltip";
+    public static final String SCREEN_PREVIEW_CURRENT = "screen.brokkr.enhancement.preview.current";
+    public static final String SCREEN_PREVIEW_RESULT = "screen.brokkr.enhancement.preview.result";
+    public static final String SCREEN_PREVIEW_NO_RESULT = "screen.brokkr.enhancement.preview.no_result";
     public static final String SCREEN_BUTTON_ENHANCE = "screen.brokkr.enhancement.button.enhance";
     public static final String SCREEN_STATUS_EMPTY = "screen.brokkr.enhancement.status.empty";
     public static final String SCREEN_STATUS_READY = "screen.brokkr.enhancement.status.ready";
