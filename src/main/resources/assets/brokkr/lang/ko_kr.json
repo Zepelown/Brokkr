@@ -1,0 +1,13 @@
+{
+  "itemGroup.brokkr": "Brokkr",
+  "item.brokkr.enhancement_stone": "강화석",
+  "tooltip.brokkr.enhancement_level": "강화: +%s",
+  "command.brokkr.enhance.success": "강화 성공: +%s -> +%s",
+  "command.brokkr.enhance.failure": "강화 실패. 무기는 +%s 상태를 유지합니다.",
+  "command.brokkr.enhance.failure.not_weapon": "오른손에 지원되는 무기를 들어야 합니다.",
+  "command.brokkr.enhance.failure.no_stone": "강화석이 필요합니다.",
+  "command.brokkr.enhance.failure.invalid_level": "강화 수치는 +0부터 +20까지여야 합니다.",
+  "command.brokkr.enhance.failure.max_level": "이 무기는 이미 최대 강화 상태입니다.",
+  "command.brokkr.enhance.debug.set": "강화 수치를 +%s로 설정했습니다.",
+  "item_name.brokkr.enhancement_prefix": "(+%s) %s"
+}

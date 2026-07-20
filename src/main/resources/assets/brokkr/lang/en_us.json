@@ -1,0 +1,13 @@
+{
+  "itemGroup.brokkr": "Brokkr",
+  "item.brokkr.enhancement_stone": "Enhancement Stone",
+  "tooltip.brokkr.enhancement_level": "Enhancement: +%s",
+  "command.brokkr.enhance.success": "Enhancement succeeded: +%s -> +%s",
+  "command.brokkr.enhance.failure": "Enhancement failed. The weapon remains at +%s.",
+  "command.brokkr.enhance.failure.not_weapon": "Hold a supported weapon in your main hand.",
+  "command.brokkr.enhance.failure.no_stone": "You need an Enhancement Stone.",
+  "command.brokkr.enhance.failure.invalid_level": "Enhancement level must be between +0 and +20.",
+  "command.brokkr.enhance.failure.max_level": "This weapon is already at maximum enhancement.",
+  "command.brokkr.enhance.debug.set": "Set enhancement level to +%s.",
+  "item_name.brokkr.enhancement_prefix": "(+%s) %s"
+}
