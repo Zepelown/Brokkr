@@ -176,7 +176,7 @@ preview arrow:         78,  32, 64x16
 preview result frame:  146, 20, 40x40
 weapon slot/current item: 46, 32, vanilla 16x16 slot render
 result item render:    158, 32, 16x16
-chance text center:    110, 51
+chance text center:    110, 18
 ```
 
 Real enhancement slots:
@@ -389,7 +389,7 @@ Max-level behavior:
 - Result preview does not show `+21`.
 - Result preview is empty.
 - Do not render a max-level weapon copy in the result preview.
-- Chance text shows max-level status or `-`.
+- Chance text is hidden.
 
 Unsupported item behavior:
 
@@ -403,7 +403,7 @@ Success chance:
 if supported and level < max:
   EnhancementChance.successChanceForCurrentLevel(level)
 else:
-  "-"
+  hidden
 ```
 
 Concrete helper contract:

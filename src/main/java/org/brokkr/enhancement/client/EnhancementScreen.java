@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -62,13 +63,15 @@ public class EnhancementScreen extends AbstractContainerScreen<EnhancementMenu> 
     private static final int PREVIEW_RESULT_X = 158;
     private static final int PREVIEW_RESULT_FRAME_X = 146;
     private static final int CHANCE_TEXT_CENTER_X = 110;
-    private static final int CHANCE_TEXT_Y = 51;
+    private static final int CHANCE_TEXT_Y = 18;
+    private static final int CHANCE_TEXT_WIDTH = 110;
     private static final int STATUS_TEXT_MAX_WIDTH = 196;
     private static final int ATTACK_BONUS_TEXT_MAX_WIDTH = 92;
 
     private final List<GuiEffectParticle> particles = new ArrayList<>();
     private final Random random = new Random();
     private Button enhanceButton;
+    private StringWidget chanceWidget;
     private EnhancementScreenState state = EnhancementScreenState.EMPTY;
     private int lastAttemptSequence;
     private int processTick;
@@ -94,6 +97,15 @@ public class EnhancementScreen extends AbstractContainerScreen<EnhancementMenu> 
                 .bounds(leftPos + 79, topPos + 106, 62, 20)
                 .build();
         addRenderableWidget(enhanceButton);
+        chanceWidget = new StringWidget(
+                leftPos + CHANCE_TEXT_CENTER_X - CHANCE_TEXT_WIDTH / 2,
+                topPos + CHANCE_TEXT_Y,
+                CHANCE_TEXT_WIDTH,
+                9,
+                chanceText(),
+                font
+        ).setColor(0xFFB84E).alignCenter();
+        addRenderableWidget(chanceWidget);
     }
 
     @Override
@@ -103,6 +115,9 @@ public class EnhancementScreen extends AbstractContainerScreen<EnhancementMenu> 
         tickProcess();
         if (enhanceButton != null) {
             enhanceButton.active = menu.canEnhance() && state != EnhancementScreenState.PROCESSING;
+        }
+        if (chanceWidget != null) {
+            chanceWidget.setMessage(chanceText());
         }
     }
 
@@ -150,7 +165,6 @@ public class EnhancementScreen extends AbstractContainerScreen<EnhancementMenu> 
         float currentBonus = profile.map(value -> value.bonusDamage(level)).orElse(0.0F);
         float nextBonus = profile.map(value -> value.bonusDamage(nextLevel)).orElse(0.0F);
 
-        graphics.drawCenteredString(font, chanceText(profile.isPresent(), level, chance), CHANCE_TEXT_CENTER_X, CHANCE_TEXT_Y, 0xFFB84E);
         graphics.drawCenteredString(font, Component.translatable(EnhancementTextKeys.SCREEN_SLOT_STONE), 110, 99, 0xD8C8A6);
         graphics.drawString(font, Component.translatable(EnhancementTextKeys.SCREEN_CURRENT_LEVEL, level), 12, 64, 0xE7D27A, false);
         if (profile.isPresent() && level < EnhancementData.MAX_LEVEL) {
@@ -194,9 +208,17 @@ public class EnhancementScreen extends AbstractContainerScreen<EnhancementMenu> 
 
     private Component chanceText(boolean supportedWeapon, int level, int chance) {
         if (!supportedWeapon || level >= EnhancementData.MAX_LEVEL) {
-            return Component.translatable(EnhancementTextKeys.SCREEN_PREVIEW_NO_RESULT);
+            return Component.empty();
         }
         return Component.translatable(EnhancementTextKeys.SCREEN_SUCCESS_CHANCE, chance);
+    }
+
+    private Component chanceText() {
+        ItemStack weapon = menu.getWeapon();
+        int level = EnhancementData.getLevel(weapon);
+        boolean supported = WeaponEnhancementProfiles.isSupported(weapon);
+        int chance = supported && level < EnhancementData.MAX_LEVEL ? EnhancementChance.successChanceForCurrentLevel(level) : 0;
+        return chanceText(supported, level, chance);
     }
 
     private void renderResultPreviewTooltip(GuiGraphics graphics, int mouseX, int mouseY) {

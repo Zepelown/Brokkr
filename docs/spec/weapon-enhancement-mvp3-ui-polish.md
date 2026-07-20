@@ -131,7 +131,7 @@ When no weapon is inserted:
 
 - Current weapon preview is empty or shows a muted weapon hint.
 - Success result preview is empty or shows a muted result hint.
-- Success chance shows `-` or an empty-state message.
+- Success chance is hidden.
 
 When a supported weapon below `+20` is inserted:
 
@@ -149,14 +149,14 @@ When the weapon is `+20`:
 - Result preview is empty.
 - Result preview must not show a max-level item copy.
 - Result preview must not show `+21`.
-- Success chance should show max-level status or `-`.
+- Success chance is hidden.
 - Enhance button remains disabled.
 
 When an unsupported item is inserted:
 
 - Current preview may show the item.
 - Result preview should show invalid state, not a fake result.
-- Success chance should show `-` or invalid state.
+- Success chance is hidden.
 
 Important rule:
 
