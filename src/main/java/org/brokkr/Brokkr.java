@@ -14,6 +14,7 @@ import org.brokkr.enhancement.event.EnhancementCommandEvents;
 import org.brokkr.enhancement.event.EnhancementTooltipEvents;
 import org.brokkr.enhancement.item.ModItems;
 import org.brokkr.enhancement.menu.ModMenus;
+import org.brokkr.enhancement.particle.ModParticles;
 
 @Mod(Brokkr.MODID)
 public class Brokkr {
@@ -31,6 +32,7 @@ public class Brokkr {
     public Brokkr(IEventBus modEventBus) {
         ModItems.ITEMS.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
+        ModParticles.PARTICLE_TYPES.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
         NeoForge.EVENT_BUS.addListener(EnhancementCommandEvents::registerCommands);

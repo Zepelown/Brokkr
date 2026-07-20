@@ -7,8 +7,10 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import org.brokkr.Brokkr;
+import org.brokkr.enhancement.client.particle.BrokkrAuraParticleProviders;
 import org.brokkr.enhancement.menu.ModMenus;
 
 @EventBusSubscriber(modid = Brokkr.MODID, value = Dist.CLIENT)
@@ -19,6 +21,11 @@ public final class BrokkrClientEvents {
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.ENHANCEMENT_MENU.get(), EnhancementScreen::new);
+    }
+
+    @SubscribeEvent
+    public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+        BrokkrAuraParticleProviders.register(event);
     }
 
     @SubscribeEvent

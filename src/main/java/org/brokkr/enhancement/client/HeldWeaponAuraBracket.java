@@ -1,10 +1,10 @@
 package org.brokkr.enhancement.client;
 
 import java.util.Optional;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
 import org.brokkr.enhancement.EnhancementData;
+import org.brokkr.enhancement.particle.ModParticles;
 
 public enum HeldWeaponAuraBracket {
     FIRST(10, 1, 1),
@@ -51,12 +51,12 @@ public enum HeldWeaponAuraBracket {
         return minParticles + random.nextInt(maxParticles - minParticles + 1);
     }
 
-    public ParticleOptions particle(RandomSource random) {
+    public SimpleParticleType particle(RandomSource random) {
         return switch (this) {
-            case FIRST -> ParticleTypes.CRIT;
-            case SECOND -> random.nextBoolean() ? ParticleTypes.ENCHANT : ParticleTypes.CRIT;
-            case THIRD -> random.nextBoolean() ? ParticleTypes.ENCHANT : ParticleTypes.WITCH;
-            case FOURTH -> random.nextBoolean() ? ParticleTypes.FLAME : ParticleTypes.CRIT;
+            case FIRST -> ModParticles.AURA_SPARK.get();
+            case SECOND -> random.nextInt(4) == 0 ? ModParticles.AURA_SPARK.get() : ModParticles.AURA_EMBER.get();
+            case THIRD -> random.nextInt(5) < 3 ? ModParticles.AURA_RUNE.get() : ModParticles.AURA_EMBER.get();
+            case FOURTH -> random.nextInt(20) < 11 ? ModParticles.AURA_ENERGY_STREAK.get() : ModParticles.AURA_EMBER.get();
         };
     }
 }

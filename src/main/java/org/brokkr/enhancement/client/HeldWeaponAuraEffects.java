@@ -5,12 +5,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.brokkr.enhancement.EnhancementData;
+import org.brokkr.enhancement.particle.ModParticles;
 import org.brokkr.enhancement.profile.WeaponEnhancementProfiles;
 
 public final class HeldWeaponAuraEffects {
@@ -55,7 +55,7 @@ public final class HeldWeaponAuraEffects {
                 spawnBaseAura(level, player, auraBracket);
             }
             if (HeldWeaponAuraBracket.isMaxLevel(enhancementLevel) && tickCounter % MAX_FLOURISH_INTERVAL_TICKS == 0) {
-                spawnParticle(level, ParticleTypes.END_ROD, auraOrigin(player, RANDOM), RANDOM);
+                spawnParticle(level, ModParticles.AURA_BURST.get(), auraOrigin(player, RANDOM), RANDOM);
             }
         }
     }
