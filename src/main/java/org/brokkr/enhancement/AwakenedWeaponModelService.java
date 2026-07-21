@@ -75,12 +75,15 @@ public final class AwakenedWeaponModelService {
     }
 
     private static String stageKey(int level) {
-        if (level <= 14) {
-            return "white";
+        if (level <= 10) {
+            return "aqua";
+        }
+        if (level <= 15) {
+            return "purple";
         }
         if (level <= 19) {
-            return "orange";
+            return "gold";
         }
-        return "final";
+        return "red";
     }
 }

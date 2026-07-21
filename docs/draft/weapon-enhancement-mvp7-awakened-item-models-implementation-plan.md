@@ -1,4 +1,4 @@
-# Weapon Enhancement MVP 7 Awakened Item Models Implementation Plan
+﻿# Weapon Enhancement MVP 7 Awakened Item Models Implementation Plan
 
 ## Purpose
 
@@ -10,9 +10,10 @@ Target behavior:
 
 ```text
 +0  .. +9   vanilla sword model
-+10 .. +14  Brokkr white aura composite model
-+15 .. +19  Brokkr orange aura composite model
-+20         Brokkr final aura composite model
++10         Brokkr aqua aura composite model
++11 .. +15  Brokkr purple aura composite model
++16 .. +19  Brokkr gold aura composite model
++20         Brokkr red aura composite model
 ```
 
 ## API Verification
@@ -214,9 +215,10 @@ MVP 7 needs six materials times three stages.
 Generated client item files:
 
 ```text
-src/main/resources/assets/brokkr/items/awakened_<material>_sword_white.json
-src/main/resources/assets/brokkr/items/awakened_<material>_sword_orange.json
-src/main/resources/assets/brokkr/items/awakened_<material>_sword_final.json
+src/main/resources/assets/brokkr/items/awakened_<material>_sword_aqua.json
+src/main/resources/assets/brokkr/items/awakened_<material>_sword_purple.json
+src/main/resources/assets/brokkr/items/awakened_<material>_sword_red.json
+src/main/resources/assets/brokkr/items/awakened_<material>_sword_gold.json
 ```
 
 Each client item should be a composite model:
@@ -232,7 +234,7 @@ Each client item should be a composite model:
       },
       {
         "type": "minecraft:model",
-        "model": "brokkr:item/aura/iron_sword_white"
+        "model": "brokkr:item/aura/iron_sword_aqua"
       }
     ]
   }
@@ -242,9 +244,10 @@ Each client item should be a composite model:
 Generated Brokkr aura model files:
 
 ```text
-src/main/resources/assets/brokkr/models/item/aura/<material>_sword_white.json
-src/main/resources/assets/brokkr/models/item/aura/<material>_sword_orange.json
-src/main/resources/assets/brokkr/models/item/aura/<material>_sword_final.json
+src/main/resources/assets/brokkr/models/item/aura/<material>_sword_aqua.json
+src/main/resources/assets/brokkr/models/item/aura/<material>_sword_purple.json
+src/main/resources/assets/brokkr/models/item/aura/<material>_sword_red.json
+src/main/resources/assets/brokkr/models/item/aura/<material>_sword_gold.json
 ```
 
 Each aura model:
@@ -253,7 +256,7 @@ Each aura model:
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "brokkr:item/aura/<material>_sword_white"
+    "layer0": "brokkr:item/aura/<material>_sword_aqua"
   }
 }
 ```
@@ -261,9 +264,10 @@ Each aura model:
 Generated aura textures:
 
 ```text
-src/main/resources/assets/brokkr/textures/item/aura/<material>_sword_white.png
-src/main/resources/assets/brokkr/textures/item/aura/<material>_sword_orange.png
-src/main/resources/assets/brokkr/textures/item/aura/<material>_sword_final.png
+src/main/resources/assets/brokkr/textures/item/aura/<material>_sword_aqua.png
+src/main/resources/assets/brokkr/textures/item/aura/<material>_sword_purple.png
+src/main/resources/assets/brokkr/textures/item/aura/<material>_sword_red.png
+src/main/resources/assets/brokkr/textures/item/aura/<material>_sword_gold.png
 ```
 
 Texture requirements:
@@ -272,7 +276,7 @@ Texture requirements:
 - Transparent background.
 - Aura aligned to vanilla sword sprite direction.
 - No filled square background.
-- White/orange/final visual stages are clearly different.
+- Aqua/purple/gold/red visual stages match item name enhancement colors.
 
 Implementation note:
 
@@ -317,9 +321,10 @@ Because MVP 7 refreshes model in `EnhancementData.setLevel`, no separate UI-spec
 Validation:
 
 ```text
-+9 preview -> white aura model
-+14 preview -> orange aura model
-+19 preview -> final aura model
++9 preview -> aqua aura model
++10 preview -> purple aura model
++15 preview -> gold aura model
++19 preview -> red aura model
 ```
 
 If preview does not update:
@@ -358,7 +363,8 @@ Tasks:
 - Delete MVP 6 client render package if only used for runtime aura.
 - Delete client mixin package.
 - Delete `brokkr.mixins.json`.
-- Remove `[[mixins]]` entry from `neoforge.mods.toml`.
+- Remove `[[mixins]]` entry from 
+eoforge.mods.toml`.
 - Build.
 
 Exit criteria:
@@ -435,9 +441,10 @@ Manual checks:
 
 - Hold `+0` iron sword: vanilla model.
 - Set/enhance to `+9`: vanilla model.
-- Set/enhance to `+10`: white aura model.
-- Set/enhance to `+15`: orange aura model.
-- Set/enhance to `+20`: final aura model.
+- Set/enhance to `+10`: aqua aura model.
+- Set/enhance to `+15`: purple aura model.
+- Set/enhance to `+16`: gold aura model.
+- Set/enhance to `+20`: red aura model.
 - Open inventory: icon readable.
 - Press F5: third-person held item not broken.
 - Drop item: ground item not broken.
@@ -502,3 +509,5 @@ MVP 6 leftovers:
 - No MVP 6 fallback/mixin aura renders remain active.
 - Clean build succeeds.
 - Jar copies to the configured CurseForge test instance.
+
+

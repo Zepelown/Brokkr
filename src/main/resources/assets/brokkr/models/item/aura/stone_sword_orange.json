@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/handheld",
-  "textures": {
-    "layer0": "brokkr:item/aura/stone_sword_orange"
-  }
-}

@@ -3,6 +3,7 @@ package org.brokkr.enhancement.event;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import org.brokkr.enhancement.EnhancementData;
+import org.brokkr.enhancement.EnhancementNameService;
 import org.brokkr.enhancement.EnhancementTier;
 import org.brokkr.enhancement.profile.WeaponEnhancementProfiles;
 import org.brokkr.enhancement.text.EnhancementTextKeys;
@@ -21,6 +22,9 @@ public final class EnhancementTooltipEvents {
             return;
         }
 
+        if (!event.getToolTip().isEmpty()) {
+            event.getToolTip().set(0, EnhancementNameService.enhancedName(event.getItemStack(), level));
+        }
         event.getToolTip().add(Component.translatable(EnhancementTextKeys.TOOLTIP_LEVEL, level)
                 .withStyle(EnhancementTier.fromLevel(level).color()));
     }

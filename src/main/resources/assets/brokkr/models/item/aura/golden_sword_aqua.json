@@ -1,0 +1,6 @@
+﻿{
+    "parent":  "minecraft:item/handheld",
+    "textures":  {
+                     "layer0":  "brokkr:item/aura/golden_sword_aqua"
+                 }
+}

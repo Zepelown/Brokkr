@@ -6,8 +6,8 @@ public enum EnhancementTier {
     LOW(ChatFormatting.GRAY),
     MID(ChatFormatting.AQUA),
     HIGH(ChatFormatting.LIGHT_PURPLE),
-    VERY_HIGH(ChatFormatting.RED),
-    MAX(ChatFormatting.GOLD);
+    VERY_HIGH(ChatFormatting.GOLD),
+    MAX(ChatFormatting.RED);
 
     private final ChatFormatting color;
 

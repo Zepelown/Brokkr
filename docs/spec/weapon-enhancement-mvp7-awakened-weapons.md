@@ -1,4 +1,4 @@
-# Weapon Enhancement MVP 7 Awakened Item Models Spec
+﻿# Weapon Enhancement MVP 7 Awakened Item Models Spec
 
 ## Goal
 
@@ -10,9 +10,10 @@ Player-facing goal:
 
 ```text
 Iron Sword remains minecraft:iron_sword.
-At +10, it visually awakens with Brokkr white blade light.
-At +15, the awakened visual changes to orange blade light.
-At +20, the visual changes to a final stronger aura model.
+At +10, it visually awakens with Brokkr aqua blade light.
+At +11, the awakened visual changes to purple blade light.
+At +16, the awakened visual changes to gold blade light.
+At +20, the visual changes to a red max-level aura model.
 ```
 
 This replaces the previous idea of converting vanilla weapons into Brokkr item IDs.
@@ -74,9 +75,10 @@ Included:
   - netherite sword
 - Define visual model stages:
   - `+0..+9`: vanilla model
-  - `+10..+14`: white awakened model
-  - `+15..+19`: orange awakened model
-  - `+20`: final awakened model
+  - `+10`: aqua awakened model
+  - `+11..+15`: purple awakened model
+  - `+16..+19`: gold awakened model
+  - `+20`: red awakened model
 - Keep existing enhancement mechanics.
 - Keep attack damage bonus at `+0.2` per level.
 - Keep enhancement UI and command behavior.
@@ -98,9 +100,10 @@ Rendered model should be derived from enhancement level.
 
 ```text
 +0  .. +9   use vanilla item model
-+10 .. +14  use Brokkr white aura item model
-+15 .. +19  use Brokkr orange aura item model
-+20         use Brokkr final aura item model
++10         use Brokkr aqua aura item model
++11 .. +15  use Brokkr purple aura item model
++16 .. +19  use Brokkr gold aura item model
++20         use Brokkr red aura item model
 ```
 
 When level changes:
@@ -133,17 +136,17 @@ Before:
 After successful +9 -> +10:
   item id: minecraft:iron_sword
   level: +10
-  item model: brokkr:awakened_iron_sword_white
+  item model: brokkr:awakened_iron_sword_aqua
 
 After +15:
   item id: minecraft:iron_sword
   level: +15
-  item model: brokkr:awakened_iron_sword_orange
+  item model: brokkr:awakened_iron_sword_purple
 
 After +20:
   item id: minecraft:iron_sword
   level: +20
-  item model: brokkr:awakened_iron_sword_final
+  item model: brokkr:awakened_iron_sword_red
 ```
 
 This means existing vanilla sword behavior remains tied to the vanilla item.
@@ -164,29 +167,35 @@ minecraft:netherite_sword
 Awakened model IDs:
 
 ```text
-brokkr:awakened_wooden_sword_white
-brokkr:awakened_wooden_sword_orange
-brokkr:awakened_wooden_sword_final
+brokkr:awakened_wooden_sword_aqua
+brokkr:awakened_wooden_sword_purple
+brokkr:awakened_wooden_sword_red
+brokkr:awakened_wooden_sword_gold
 
-brokkr:awakened_stone_sword_white
-brokkr:awakened_stone_sword_orange
-brokkr:awakened_stone_sword_final
+brokkr:awakened_stone_sword_aqua
+brokkr:awakened_stone_sword_purple
+brokkr:awakened_stone_sword_red
+brokkr:awakened_stone_sword_gold
 
-brokkr:awakened_iron_sword_white
-brokkr:awakened_iron_sword_orange
-brokkr:awakened_iron_sword_final
+brokkr:awakened_iron_sword_aqua
+brokkr:awakened_iron_sword_purple
+brokkr:awakened_iron_sword_red
+brokkr:awakened_iron_sword_gold
 
-brokkr:awakened_golden_sword_white
-brokkr:awakened_golden_sword_orange
-brokkr:awakened_golden_sword_final
+brokkr:awakened_golden_sword_aqua
+brokkr:awakened_golden_sword_purple
+brokkr:awakened_golden_sword_red
+brokkr:awakened_golden_sword_gold
 
-brokkr:awakened_diamond_sword_white
-brokkr:awakened_diamond_sword_orange
-brokkr:awakened_diamond_sword_final
+brokkr:awakened_diamond_sword_aqua
+brokkr:awakened_diamond_sword_purple
+brokkr:awakened_diamond_sword_red
+brokkr:awakened_diamond_sword_gold
 
-brokkr:awakened_netherite_sword_white
-brokkr:awakened_netherite_sword_orange
-brokkr:awakened_netherite_sword_final
+brokkr:awakened_netherite_sword_aqua
+brokkr:awakened_netherite_sword_purple
+brokkr:awakened_netherite_sword_red
+brokkr:awakened_netherite_sword_gold
 ```
 
 ## Resource Structure
@@ -194,7 +203,7 @@ brokkr:awakened_netherite_sword_final
 Client item definitions:
 
 ```text
-src/main/resources/assets/brokkr/items/awakened_iron_sword_white.json
+src/main/resources/assets/brokkr/items/awakened_iron_sword_aqua.json
 ```
 
 Example structure:
@@ -210,7 +219,7 @@ Example structure:
       },
       {
         "type": "minecraft:model",
-        "model": "brokkr:item/aura/iron_sword_white"
+        "model": "brokkr:item/aura/iron_sword_aqua"
       }
     ]
   }
@@ -220,17 +229,17 @@ Example structure:
 Item model JSON files:
 
 ```text
-src/main/resources/assets/brokkr/models/item/aura/iron_sword_white.json
-src/main/resources/assets/brokkr/models/item/aura/iron_sword_orange.json
-src/main/resources/assets/brokkr/models/item/aura/iron_sword_final.json
+src/main/resources/assets/brokkr/models/item/aura/iron_sword_aqua.json
+src/main/resources/assets/brokkr/models/item/aura/iron_sword_purple.json
+src/main/resources/assets/brokkr/models/item/aura/iron_sword_gold.json
 ```
 
 Aura texture files:
 
 ```text
-src/main/resources/assets/brokkr/textures/item/aura/iron_sword_white.png
-src/main/resources/assets/brokkr/textures/item/aura/iron_sword_orange.png
-src/main/resources/assets/brokkr/textures/item/aura/iron_sword_final.png
+src/main/resources/assets/brokkr/textures/item/aura/iron_sword_aqua.png
+src/main/resources/assets/brokkr/textures/item/aura/iron_sword_purple.png
+src/main/resources/assets/brokkr/textures/item/aura/iron_sword_gold.png
 ```
 
 The exact resource count can be reduced by reusing shared aura textures if material-specific texture generation is too large for MVP 7.
@@ -242,18 +251,22 @@ MVP 7 uses static model layers.
 Visual stages:
 
 ```text
-+10..+14
-  Thin white blade highlight aligned to the vanilla sword sprite.
-  Should read as a subtle pale light on the blade, not a filled white overlay.
++10
+  Thin aqua blade highlight aligned to the vanilla sword sprite.
+  Matches the +10 item name color tier.
 
-+15..+19
-  Thin orange/gold outer highlight plus small ember accents.
-  Stronger than +10, but still sparse enough for the vanilla sword to remain readable.
++11..+15
+  Thin purple blade highlight plus small arcane accents.
+  Matches the high enhancement item name color tier.
+
++16..+19
+  Thin gold outer highlight plus small ember accents.
+  Matches the very high enhancement item name color tier.
 
 +20
-  Final orange/gold aura model.
-  Uses a gold line, a warmer outer edge, and small final highlight marks.
-  Should feel more awakened than +15 without covering the blade with a solid glow.
+  Red max-level aura model.
+  Uses a red line, a warmer outer edge, and small final highlight marks.
+  Matches the max enhancement item name color tier.
   Must remain static for MVP 7.
 ```
 
@@ -320,7 +333,7 @@ refreshModel(stack, level):
     return
 
   material = sword material from item id
-  stage = white/orange/final from level
+  stage = aqua/purple/gold/red from level
   stack.set(DataComponents.ITEM_MODEL, ResourceLocation("brokkr", modelId))
 ```
 
@@ -345,13 +358,13 @@ MVP 7 should correct those items without requiring the player to re-enhance them
 
 ```text
 10 existing sword without ITEM_MODEL
-  -> server inventory refresh applies Brokkr white aura model
+  -> server inventory refresh applies Brokkr aqua aura model
 
 +15 existing sword without ITEM_MODEL
-  -> server inventory refresh applies Brokkr orange aura model
+  -> server inventory refresh applies Brokkr purple aura model
 
 +20 existing sword without ITEM_MODEL
-  -> server inventory refresh applies Brokkr final aura model
+  -> server inventory refresh applies Brokkr red aura model
 ```
 
 The migration must stay narrow:
@@ -387,13 +400,13 @@ Set level to 9:
   remove Brokkr item model override
 
 Set level to 10:
-  apply white aura model
+  apply aqua aura model
 
 Set level to 15:
-  apply orange aura model
+  apply purple aura model
 
 Set level to 20:
-  apply final aura model
+  apply red aura model
 ```
 
 ## UI Behavior
@@ -404,13 +417,13 @@ Examples:
 
 ```text
 (+9) Iron Sword success preview:
-  (+10) Iron Sword with white aura model
+  (+10) Iron Sword with aqua aura model
 
 (+14) Iron Sword success preview:
-  (+15) Iron Sword with orange aura model
+  (+15) Iron Sword with purple aura model
 
 (+19) Iron Sword success preview:
-  (+20) Iron Sword with final aura model
+  (+20) Iron Sword with red aura model
 ```
 
 No item name needs to change to "Awakened" in MVP 7 unless the user explicitly wants that later.
@@ -432,9 +445,9 @@ No new item IDs are introduced, so no new item translation keys are required.
 Optional message keys:
 
 ```text
-message.brokkr.enhancement.awakened.white
-message.brokkr.enhancement.awakened.orange
-message.brokkr.enhancement.awakened.final
+message.brokkr.enhancement.awakened.aqua
+message.brokkr.enhancement.awakened.purple
+message.brokkr.enhancement.awakened.red
 ```
 
 These can be used if Brokkr wants to announce visual awakening milestones.
@@ -446,19 +459,20 @@ Example:
   The weapon awakens with pale light.
 
 +15 success:
-  The weapon burns with orange aura.
+  The weapon shines with purple aura.
 
 +20 success:
-  The weapon reaches its final aura.
+  The weapon reaches its red aura.
 ```
 
 ## Acceptance Criteria
 
 - Item ID remains vanilla after `+10`.
 - `+0..+9` uses default vanilla item model.
-- `+10..+14` applies Brokkr white aura item model.
-- `+15..+19` applies Brokkr orange aura item model.
-- `+20` applies Brokkr final aura item model.
+- `+10` applies Brokkr aqua aura item model.
+- `+11..+15` applies Brokkr purple aura item model.
+- `+16..+19` applies Brokkr gold aura item model.
+- `+20` applies Brokkr red aura item model.
 - 1인칭에서 오러 레이어가 무기와 함께 움직인다.
 - 3인칭, GUI, ground/fixed 렌더에서도 모델이 크게 깨지지 않는다.
 - Existing enhancement level data remains unchanged.
@@ -482,9 +496,9 @@ In-game:
 
 - Hold `+0` iron sword and confirm vanilla model.
 - Set/enhance to `+9` and confirm vanilla model.
-- Set/enhance to `+10` and confirm white aura model in first person.
-- Set/enhance to `+15` and confirm orange aura model in first person.
-- Set/enhance to `+20` and confirm final aura model in first person.
+- Set/enhance to `+10` and confirm aqua aura model in first person.
+- Set/enhance to `+15` and confirm purple aura model in first person.
+- Set/enhance to `+20` and confirm red aura model in first person.
 - Press F5 and confirm third-person item model is not broken.
 - Drop the item and confirm ground item model is not broken.
 - Open inventory and confirm GUI icon remains readable.
@@ -522,3 +536,5 @@ Data component correctness:
 - Optional awakened display names.
 - Support for axes.
 - Support for modded weapons through a mapping/config system.
+
+

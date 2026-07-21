@@ -15,7 +15,12 @@ public final class EnhancementNameService {
             return;
         }
 
+        stack.set(DataComponents.ITEM_NAME, enhancedName(stack, level));
+    }
+
+    public static Component enhancedName(ItemStack stack, int level) {
         Component baseName = Component.translatable(stack.getItem().getDescriptionId());
-        stack.set(DataComponents.ITEM_NAME, Component.translatable(EnhancementTextKeys.ITEM_NAME_PREFIX, level, baseName));
+        return Component.translatable(EnhancementTextKeys.ITEM_NAME_PREFIX, level, baseName)
+                .withStyle(EnhancementTier.fromLevel(level).color());
     }
 }
