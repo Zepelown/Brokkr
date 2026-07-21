@@ -30,6 +30,7 @@ public final class EnhancementData {
             }
         });
         EnhancementNameService.refreshName(stack, clamped);
+        AwakenedWeaponModelService.refreshModel(stack, clamped);
     }
 
     public static int increment(ItemStack stack) {

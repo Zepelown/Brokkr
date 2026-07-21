@@ -1,0 +1,15 @@
+{
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "minecraft:item/iron_sword"
+      },
+      {
+        "type": "minecraft:model",
+        "model": "brokkr:item/aura/iron_sword_white"
+      }
+    ]
+  }
+}

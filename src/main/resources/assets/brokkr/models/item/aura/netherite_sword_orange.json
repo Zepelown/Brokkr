@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "brokkr:item/aura/netherite_sword_orange"
+  }
+}

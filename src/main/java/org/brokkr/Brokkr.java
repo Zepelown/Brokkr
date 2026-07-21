@@ -11,6 +11,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.brokkr.enhancement.event.EnhancementCombatEvents;
 import org.brokkr.enhancement.event.EnhancementCommandEvents;
+import org.brokkr.enhancement.event.EnhancementInventoryEvents;
 import org.brokkr.enhancement.event.EnhancementTooltipEvents;
 import org.brokkr.enhancement.item.ModItems;
 import org.brokkr.enhancement.menu.ModMenus;
@@ -39,5 +40,6 @@ public class Brokkr {
         NeoForge.EVENT_BUS.addListener(EnhancementTooltipEvents::addTooltip);
         NeoForge.EVENT_BUS.addListener(EnhancementCombatEvents::addAttackDamage);
         NeoForge.EVENT_BUS.addListener(EnhancementCombatEvents::spawnHitParticles);
+        NeoForge.EVENT_BUS.addListener(EnhancementInventoryEvents::refreshAwakenedModels);
     }
 }
